@@ -1,0 +1,31 @@
+.container-fluid {
+  padding-right: 0;
+  padding-left: 0;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+th {
+  text-align: left;
+  padding: 5px;
+  background-color: #f60;
+}
+
+tr:nth-child(even) {
+  background-color: #f6f6ef;
+}
+
+.fa {
+  color: gray;
+}
+a {
+  color: gray;
+}
+
+.title:hover {
+  color: #f60;
+  cursor: pointer;
+}
+hr {
+  border: 2px solid #f60;
+}
