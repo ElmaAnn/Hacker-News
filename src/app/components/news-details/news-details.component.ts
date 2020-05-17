@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { ApiService } from "src/app/services/api.service";
-import { NewsDetails } from "src/app/model/news-details";
+import { NewsDetails, NewsResponse } from "src/app/model/news-details";
 import * as Highcharts from "highcharts";
+import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 
 @Component({
   selector: "app-news-details",
@@ -12,7 +13,6 @@ export class NewsDetailsComponent implements OnInit {
   newsDetailsList: NewsDetails[];
   p: Number = 1;
   count: Number = 20;
-
   highcharts = Highcharts;
   chartOptions: any;
 
@@ -20,6 +20,7 @@ export class NewsDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.loadNewsDetails();
+    JSON.parse(localStorage.getItem("hiddenRow"));
   }
 
   loadNewsDetails() {
@@ -40,6 +41,7 @@ export class NewsDetailsComponent implements OnInit {
   }
 
   getVotes() {
+    JSON.parse(localStorage.getItem("upVotes"));
     return this.newsDetailsList
       .filter((hit) => !hit.deleted)
       .map((hit) => hit.voteNumber);
@@ -48,11 +50,19 @@ export class NewsDetailsComponent implements OnInit {
   onHideRow(item) {
     item.deleted = true;
     this.initialiseChart();
+    localStorage.setItem(
+      "hiddenRow",
+      JSON.stringify([item.objectID, !this.newsDetailsList.deleted])
+    );
   }
 
   onUpVote(item) {
     item.voteNumber += 1;
     this.initialiseChart();
+    localStorage.setItem(
+      "upVotes",
+      JSON.stringify([item.objectID, item.voteNumber])
+    );
   }
 
   initialiseChart() {
