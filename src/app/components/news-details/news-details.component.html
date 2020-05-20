@@ -10,19 +10,12 @@
     </thead>
 
     <tbody>
-      <tr
-        class="tr1"
-        *ngFor="let item of newsDetailsList; let i = index"
-        [attr.id]="
-          item.ObjectID | paginate: { itemsPerPage: count, currentPage: p }
-        "
-      >
+      <tr *ngFor="let item of newsDetailsList; let i = index">
         <ng-container *ngIf="!item.deleted">
           <td [hidden]="true">{{ item.objectID }}</td>
           <td class="comments">{{ item.comment_text }}-</td>
-          <!-- <span>{{ item.deleted }}Hello</span> -->
+
           <td class="upVotes">
-            <!-- {{ votes }} -->
             <strong>{{ item.voteNumber }}</strong>
           </td>
 
@@ -47,12 +40,9 @@
               </a>
             </span>
             <small class="by1">by </small>
-            <strong class="user"> ({{ item.author }}) </strong>&nbsp;
+            <strong class="user"> {{ item.author }} </strong>&nbsp;
             <small class="by"
-              ><a
-                id="{{ i }}"
-                style="cursor: pointer;"
-                (click)="onHideRow(item)"
+              ><a style="cursor: pointer;" (click)="onHideRow(item)"
                 >[ <strong style="color: black;">hide</strong> ]</a
               ></small
             >
@@ -65,10 +55,14 @@
       <tr></tr>
     </tbody>
   </table>
-  <div class="container text-right">
-    <div class="row">
-      <pagination-controls (pageChange)="p = $event"></pagination-controls>
-    </div>
+  <div class="load-more">
+    <strong class="links"
+      ><a class="a1" (click)="loadNewsDetailsFirstPage()">Previous</a></strong
+    >
+    |
+    <strong class="links"
+      ><a class="a1" (click)="loadNewsDetailsNextPage()">Next</a></strong
+    >
   </div>
 </div>
 <hr />

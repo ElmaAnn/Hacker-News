@@ -3,7 +3,10 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { NewsDetails, NewsResponse } from "../model/news-details";
 
-const apiUrl = "https://hn.algolia.com/api/v1/search?tags=front_page";
+const apiUrlFirst =
+  "https://hn.algolia.com/api/v1/search?tags=front_page&page=0";
+const apiUrlNext =
+  "https://hn.algolia.com/api/v1/search?tags=front_page&page=1";
 
 @Injectable({
   providedIn: "root",
@@ -11,7 +14,10 @@ const apiUrl = "https://hn.algolia.com/api/v1/search?tags=front_page";
 export class ApiService {
   constructor(private http: HttpClient) {}
 
-  getNewsDetails(): Observable<NewsResponse> {
-    return this.http.get<NewsResponse>(apiUrl);
+  getNewsDetailsFirstPage(): Observable<NewsResponse> {
+    return this.http.get<NewsResponse>(apiUrlFirst);
+  }
+  getNewsDetailsNextPage(): Observable<NewsResponse> {
+    return this.http.get<NewsResponse>(apiUrlNext);
   }
 }

@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from "@angular/core";
 import { ApiService } from "src/app/services/api.service";
 import { NewsDetails, NewsResponse } from "src/app/model/news-details";
 import * as Highcharts from "highcharts";
-import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 
 @Component({
   selector: "app-news-details",
@@ -11,20 +10,18 @@ import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 })
 export class NewsDetailsComponent implements OnInit {
   newsDetailsList: NewsDetails[];
-  p: Number = 1;
-  count: Number = 20;
   highcharts = Highcharts;
   chartOptions: any;
 
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
-    this.loadNewsDetails();
+    this.loadNewsDetailsFirstPage();
     JSON.parse(localStorage.getItem("hiddenRow"));
   }
 
-  loadNewsDetails() {
-    this.apiService.getNewsDetails().subscribe((newsReponse) => {
+  loadNewsDetailsFirstPage() {
+    this.apiService.getNewsDetailsFirstPage().subscribe((newsReponse) => {
       this.newsDetailsList = newsReponse.hits;
       for (const iterator of this.newsDetailsList) {
         iterator.deleted = false;
@@ -33,7 +30,16 @@ export class NewsDetailsComponent implements OnInit {
       this.initialiseChart();
     });
   }
-
+  loadNewsDetailsNextPage() {
+    this.apiService.getNewsDetailsNextPage().subscribe((newsReponse) => {
+      this.newsDetailsList = newsReponse.hits;
+      for (const iterator of this.newsDetailsList) {
+        iterator.deleted = false;
+        iterator.voteNumber = 0;
+      }
+      this.initialiseChart();
+    });
+  }
   getObjIds(): number[] {
     return this.newsDetailsList
       .filter((hit) => !hit.deleted)
