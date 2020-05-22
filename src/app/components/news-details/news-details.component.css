@@ -20,6 +20,10 @@ tr:nth-child(even) {
   color: gray;
   font-size: 18px;
 }
+.fa:active {
+  color: #f60;
+}
+
 a {
   color: gray;
 }

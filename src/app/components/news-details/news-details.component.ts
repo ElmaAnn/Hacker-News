@@ -58,7 +58,7 @@ export class NewsDetailsComponent implements OnInit {
     this.initialiseChart();
     localStorage.setItem(
       "hiddenRow",
-      JSON.stringify([item.objectID, !this.newsDetailsList.deleted])
+      JSON.stringify([item.objectID, item.deleted])
     );
   }
 
